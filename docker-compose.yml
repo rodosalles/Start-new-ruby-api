@@ -1,0 +1,26 @@
+version: '3'
+services:
+  # Serviço para a aplicação Rails
+  web:
+    build:
+      context: .
+    command: bundle exec rails server -b 0.0.0.0
+    volumes:
+      - .:/app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: postgres://rodosalles:rodosalles22@db/embarca_development
+    links:
+      - db
+
+  # Serviço para o banco de dados PostgreSQL
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: rodosalles
+      POSTGRES_PASSWORD: rodosalles22
+      POSTGRES_DB: embarca_development
+
